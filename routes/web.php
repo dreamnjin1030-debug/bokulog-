@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\controllers\UserPostsController;
+use App\Http\controllers\UserPostContentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user-posts/{userPost}/edit', [UserPostsController::class, 'edit'])->name('user_posts.edit');
     Route::put('/user-posts/{userPost}', [UserPostsController::class, 'update'])->name('user_posts.update');
     Route::delete('/user-posts/{userPost}', [UserPostsController::class, 'delete'])->name('user_posts.delete');
+    Route::get('/user-posts/{userPost}', [UserPostsController::class, 'show'])->name('user_posts.show');
 });
+
+Route::post('/user-post-contents/{userPost}', [UserPostContentController::class, 'store'])
+    ->middleware('auth')
+    ->name('user-post-contents.store');
 
 require __DIR__ . '/auth.php';

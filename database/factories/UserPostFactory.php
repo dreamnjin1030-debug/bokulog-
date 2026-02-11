@@ -21,6 +21,7 @@ class UserPostFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
+            'title' => fake()->sentence(),
             'content' => fake()->sentence(),
             'rating'  => fake()->numberBetween(1, 5),
         ];

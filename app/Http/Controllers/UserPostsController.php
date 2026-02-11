@@ -11,7 +11,9 @@ class UserPostsController extends Controller
     //　一覧
     public function index()
     {
-        $posts = UserPost::orderBy('created_at', 'desc')->get();
+        $posts = UserPost::with('userPostContents')
+            ->latest()
+            ->get();
         return view('user_posts.index', compact('posts'));
     }
 
@@ -24,20 +26,18 @@ class UserPostsController extends Controller
     // 保存
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'boxer_id' => 'required|exists:boxers,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'required|integer|min:1|max:10',
         ]);
 
-        UserPost::create([
-            'user_id' => Auth::id(), // ログインユーザー
-            'boxer_id' => $request->boxer_id,
-            'title' => $request->title,
-            'content' => $request->content,
-            'rating' => $request->rating,
-        ]);
+        //ログインユーザーIDを追加
+        $validated['user_id'] = Auth::id();
+
+        //保存（1回だけ)
+        UserPost::create($validated);
 
         return redirect()->route('user_posts.index')->with('success', '投稿を作成しました');
     }
@@ -52,7 +52,7 @@ class UserPostsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'rating' => 'required|integer|min:1|max:5',
+            'rating' => 'required|integer|min:1|max:10',
         ]);
 
         $userPost->update([
@@ -69,5 +69,11 @@ class UserPostsController extends Controller
     {
         $userPost->delete();
         return redirect()->route('user_posts.index')->with('success', '投稿を削除しました');
+    }
+
+    public function show(UserPost $userPost)
+    {
+        $userPost->load('userPostContents.user');
+        return view('user_posts.show', compact('userPost'));
     }
 }

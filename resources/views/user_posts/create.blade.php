@@ -15,12 +15,12 @@
 
     <div>
         <label>本文</label>
-        <textarea name="content">{{ old('body') }}</textarea>
+        <textarea name="content">{{ old('content') }}</textarea>
     </div>
 
     <div>
-        <label>評価（1~5）</label>
-        <input type="number" name="rating" min="1" max="5">
+        <label>評価（1~10）</label>
+        <input type="number" name="rating" min="1" max="10">
     </div>
 
     <button type="submit">投稿する</button>

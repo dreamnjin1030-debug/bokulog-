@@ -21,4 +21,9 @@ class UserPost extends Model
     {
         return $this->belongsTo(user::class);
     }
+
+    public function userPostContents()
+    {
+        return $this->hasMany(UserPostContent::class);
+    }
 }

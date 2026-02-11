@@ -10,3 +10,53 @@
 .star.filled {
     color: #f5b301; /* ゴールド */
 }
+.post-card {
+    background: #0b1220;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+}
+
+.comments {
+    margin-top: 12px;
+    padding-left: 12px;
+    border-left: 3px solid #2a3b5f;
+}
+
+.comment {
+    background: #111a2e;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+}
+
+.comment-author {
+    font-size: 12px;
+    color: #9fb3d9;
+    margin-bottom: 4px;
+}
+
+.comment-body {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.comment-date {
+    font-size: 11px;
+    color: #7a8db8;
+    text-align: right;
+}
+
+.no-comment {
+    color: #889;
+    font-size: 13px;
+}
+
+.site-logo {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    width: 140px; /*←ここでサイズ調整*/
+    height: auto;
+    z-index: 9999;
+}
