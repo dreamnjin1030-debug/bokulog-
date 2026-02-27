@@ -21,7 +21,7 @@ class BoardsSeeder extends Seeder
             Board::create([
                 'boxer_id' => $boxer->id,
                 'user_id' => $users->random()->id,
-                'content' => '自由に語りましょう'
+                'comment' => '自由に語りましょう'
             ]);
         }
     }

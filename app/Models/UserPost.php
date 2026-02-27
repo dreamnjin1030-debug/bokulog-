@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserPostLike;
 
 class UserPost extends Model
 {
@@ -13,7 +14,7 @@ class UserPost extends Model
         'user_id',
         'boxer_id',
         'title',
-        'content',
+        'comment',
         'rating',
     ];
 
@@ -22,8 +23,19 @@ class UserPost extends Model
         return $this->belongsTo(user::class);
     }
 
-    public function userPostContents()
+    public function userPostComments()
     {
-        return $this->hasMany(UserPostContent::class);
+        return $this->hasMany(UserPostComment::class);
+    }
+
+    //この投稿にいいねしたユーザーたち
+    public function likedUsers()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'user_post_likes',
+            'user_post_id',
+            'user_id',
+        );
     }
 }

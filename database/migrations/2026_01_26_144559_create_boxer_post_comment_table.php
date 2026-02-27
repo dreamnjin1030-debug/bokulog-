@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_post_contents', function (Blueprint $table) {
+        Schema::create('boxer_post_comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_post_id')->constrained('user_posts')->cascadeOnDelete();
+            $table->foreignId('boxer_post_id')->constrained('boxer_posts')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('author')->nullable();
-            $table->text('content');
+            $table->text('comment');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_post_contents');
+        Schema::dropIfExists('boxer_post_comments');
     }
 };

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('boxer_posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('boxer_id')->constrained('boxers')->cascadeOnDelete();
-            $table->text('content')->nullable();
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

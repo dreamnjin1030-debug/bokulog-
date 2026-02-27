@@ -12,10 +12,6 @@
         color:yellow;
         ">新規作成</a>
 
-        @if (session(' success'))
-        <p style="color: green;">{{ session('success') }}</p>
-        @endif
-
         @foreach ($posts as $post)
         {{-- 投稿本体 --}}
         <div style="
@@ -26,19 +22,20 @@
             box-shadow: 0 12px 30px rgba(0,0,0,0.15);
             border: 1px solid rgba(0,0,0,0.05);">
 
-            <a href="
+            <h2 href="
             font-size: 22px; 
             font-weight: 700; 
             margin-bottom: 12px; 
-            color:#0f172a;">
+            color:#0f172a;
+            text-decoration: none;">
                 {{ $post->title }}
-            </a>
+            </h2>
 
             <p style="
             color:#334155;
             line-height: 1.7; 
             margin-bottom: 16px;">
-                {{ $post->content }}
+                {{ $post->comment }}
             </p>
 
             {{-- 評価, ボクサーid, 編集, 削除, --}}
@@ -79,39 +76,42 @@
                 </button>
             </form>
 
-            {{-- =====ここからコメントエリア===== --}}
+            <p class="text-sm text->gray-600">
+                <a href="{{ route('user_posts.show', $post->id) }}" class="text-blue-500 hover:underline">
+                    コメント詳細 (コメント {{ $post->user_post_comments_count }} 件)
+                </a>
+            </p>
 
-            <p>コメント数: {{ $post->userPostContents->count() }}</p>
+            @auth
+            @php
+            $liked = $post->likedUsers->contains(auth()->id());
+            @endphp
 
-            {{-- コメント一覧 --}}
-            <div class="comments">
-                @forelse($post->userPostContents as $content)
-                <div class="comment">
-                    <div>👤 {{ $content->author ?? '匿名' }}</div>
-                    <div>{{ $content->content }}</div>
-                    <div>{{ $content->created_at->format('Y/m/d H:i') }}</div>
-                </div>
-                @empty
-                <p>まだコメントはありません</p>
-                @endforelse
-            </div>
-
-            {{-- コメント投稿フォーム（この投稿専用） --}}
-            <form action="{{ route('user-post-contents.store', $post->id) }}" method="POST">
+            @if($liked)
+            <form action="{{ route('user_posts.unlike', $post->id) }}" method="POST">
                 @csrf
-                <input type="hidden" name="user_post_id" value="{{ $post->id }}">
-
-                <input type="text" name="author" placeholder="名前 (省略可) ">
-
-                <textarea name="content" placeholder="コメントを書く..." required></textarea>
-
-                <button type="submit">コメントする</button>
+                @method('DELETE')
+                <button type="submit">いいね解除</button>
             </form>
+            @else
+            <form action="{{ route('user_posts.like', $post->id) }}" method="POST">
+                @csrf
+                <button type="submit">いいね</button>
+            </form>
+            @endif
+            @endauth
 
-            {{-- ===== ここまでコメントエリア ===== --}}
+            <p>いいね数：{{ $post->likedUsers->count() }}</p>
+            <p>いいねした人:</p>
+            <ul>
+                @foreach($post->likedUsers as $user)
+                <li>{{ $user->name }}</li>
+                @endforeach
+            </ul>
         </div>
 
         @endforeach
     </div>
 
-    </div>
+
+</body>

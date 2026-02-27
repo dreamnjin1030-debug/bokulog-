@@ -62,4 +62,33 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //このユーザーがいいねした投稿たち
+    public function likedUserPosts()
+    {
+        return $this->belongsToMany(
+            UserPost::class,
+            'user_post_likes',
+            'user_id',
+            'user_post_id'
+        );
+    }
+
+    public function likedBoxerPosts()
+    {
+        return $this->belongsToMany(
+            BoxerPost::class,
+            'boxer_posts_like'
+        )->withTimestamps();
+    }
+
+    public function followingBoxers()
+    {
+        return $this->belongsToMany(
+            Boxer::class,
+            'follows',
+            'user_id',
+            'boxer_id'
+        )->withTimestamps();
+    }
 }

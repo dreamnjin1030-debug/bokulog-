@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\UserPost;
-use App\Models\UserPostContent;
+use App\Models\UserPostComment;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class UserPostContentsSeeder extends Seeder
+class UserPostCommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,10 +17,10 @@ class UserPostContentsSeeder extends Seeder
         $users = User::all();
 
         UserPost::all()->each(function ($post) use ($users) {
-            UserPostContent::create([
+            UserPostComment::create([
                 'user_post_id' => $post->id,
                 'user_id' => $users->random()->id,
-                'content' => 'これはダミーの投稿本文です。'
+                'comment' => 'これはダミーの投稿本文です。'
             ]);
         });
     }

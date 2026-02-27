@@ -15,7 +15,7 @@
 
     <div>
         <label>本文</label>
-        <textarea name="content">{{ old('content') }}</textarea>
+        <textarea name="comment">{{ old('comment') }}</textarea>
     </div>
 
     <div>

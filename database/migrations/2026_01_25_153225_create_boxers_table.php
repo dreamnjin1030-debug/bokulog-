@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('lose')->default(0);
             $table->unsignedInteger('draw')->default(0);
             $table->string('titles')->nullable();
-            $table->text('content')->nullable();
+            $table->text('comment')->nullable();
             $table->json('pictures')->nullable();
             $table->string('sns_url')->nullable();
             $table->timestamps();

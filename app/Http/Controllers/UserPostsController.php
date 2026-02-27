@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserPost;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserPostRequest;
+use App\Http\Requests\UpdateUserPostRequest;
 use Illuminate\Support\Facades\Auth;
 
 class UserPostsController extends Controller
@@ -11,69 +12,56 @@ class UserPostsController extends Controller
     //　一覧
     public function index()
     {
-        $posts = UserPost::with('userPostContents')
+        $posts = UserPost::withCount('userPostComments')
             ->latest()
+            ->with('likedUsers')
             ->get();
+
         return view('user_posts.index', compact('posts'));
     }
 
-    //新規作成画面
+    // 新規作成画面
     public function create()
     {
         return view('user_posts.create');
     }
 
     // 保存
-    public function store(Request $request)
+    public function store(StoreUserPostRequest $request)
     {
-        $validated = $request->validate([
-            'boxer_id' => 'required|exists:boxers,id',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'rating' => 'required|integer|min:1|max:10',
-        ]);
-
-        //ログインユーザーIDを追加
+        $validated = $request->validated();
+        // ログインユーザーIDを追加
         $validated['user_id'] = Auth::id();
 
-        //保存（1回だけ)
+        // 保存（1回だけ)
         UserPost::create($validated);
 
-        return redirect()->route('user_posts.index')->with('success', '投稿を作成しました');
+        return redirect()->route('user_posts.index');
     }
-    //編集画面
+
+    // 投稿に対するコメント
+    public function show(UserPost $userPost)
+    {
+        return view('user_posts.show', compact('userPost'));
+    }
+
+    // 編集画面
     public function  edit(UserPost $userPost)
     {
         return view('user_posts.edit', compact('userPost'));
     }
-    //更新
-    public function update(Request $request, UserPost $userPost)
+    // 更新
+    public function update(UpdateUserPostRequest $request, UserPost $userPost)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'rating' => 'required|integer|min:1|max:10',
-        ]);
+        $userPost->update($request->validated());
 
-        $userPost->update([
-            'title' => $request->title,
-            'content' => $request->content,
-            'rating' => $request->rating,
-        ]);
-
-        return redirect()->route('user_posts.index')->with('success', '投稿を更新しました');
+        return redirect()->route('user_posts.index');
     }
 
-    //削除
+    // 削除
     public function delete(UserPost $userPost)
     {
         $userPost->delete();
-        return redirect()->route('user_posts.index')->with('success', '投稿を削除しました');
-    }
-
-    public function show(UserPost $userPost)
-    {
-        $userPost->load('userPostContents.user');
-        return view('user_posts.show', compact('userPost'));
+        return redirect()->route('user_posts.index');
     }
 }

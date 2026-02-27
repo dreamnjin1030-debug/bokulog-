@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
 
             //User投稿系
             UserPostsSeeder::class,
-            UserPostContentsSeeder::class,
-            UserPostsLikeSeeder::class,
+            UserPostCommentSeeder::class,
+            UserPostLikesSeeder::class,
 
             //Boxer投稿系
             BoxerPostsSeeder::class,
-            BoxerPostContentsSeeder::class,
+            BoxerPostCommentSeeder::class,
             BoxerPostsLikeSeeder::class,
 
             //掲示板(User / Boxerを使う)

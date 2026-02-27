@@ -12,7 +12,7 @@ class Board extends Model
     protected $fillable = [
         'boxer_id',
         'user_id',
-        'content',
+        'comment',
     ];
 
     //投稿先のボクサー

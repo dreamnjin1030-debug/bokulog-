@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\BoxerPost;
-use App\Models\BoxerPostContent;
+use App\Models\BoxerPostComment;
 use App\Models\user;
 use Illuminate\Database\Seeder;
 
-class BoxerPostContentsSeeder extends Seeder
+class BoxerPostCommentSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,10 +17,10 @@ class BoxerPostContentsSeeder extends Seeder
         $users = User::all();
 
         BoxerPost::all()->each(function ($post) use ($users) {
-            BoxerPostContent::create([
+            BoxerPostComment::create([
                 'boxer_post_id' => $post->id,
                 'user_id' => $users->random()->id,
-                'content' => 'ボクサー投稿の本文ダミーです。',
+                'comment' => 'ボクサー投稿の本文ダミーです。',
             ]);
         });
     }
