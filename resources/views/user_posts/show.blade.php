@@ -1,60 +1,112 @@
-{{-- 投稿の詳細 --}}
-<div style="margin-bottom: 24px; padding:16px; border: 1px  solid #ddd; border-radius : 8px;">
-    <h2>{{ $userPost->title }}</h2>
+@extends('layouts.app')
 
-    <p style="margin-top:8px;">
-        {{ $userPost->comment }}
-    </p>
+@section('content')
+<div class="text-black min-h-screen py-12">
+    <div class="max-w-3xl mx-auto px-4">
 
-    <div style="color: #666; font-size: 12px; margin-top: 8px;">
-        評価：
-        @for ($i = 1; $i <= 10; $i++)
-            @if ($i <=$userPost->rating)
-            ★
-            @else
-            ☆
-            @endif
-            @endfor
-            <br>
-            作成日：{{ $userPost->created_at }}
+        {{-- 投稿カード --}}
+        <div class="bg-white text-black rounded-2xl p-8 shadow-xl border border-slate-800 mb-10">
+
+            <h2 class="text-3xl font-bold text-red-400 mb-4">
+                {{ $userPost->title }}
+            </h2>
+
+            <p class="text-black leading-relaxed mb-6">
+                {{ $userPost->comment }}
+            </p>
+
+            {{-- 評価 --}}
+            <div class="flex items-center mb-3">
+                <span class="mr-3 font-semibold text-slate-400">評価:</span>
+                @for ($i = 1; $i <= 5; $i++)
+                    @if ($i <=$userPost->rating)
+                    <span class="text-yellow-400 text-xl">★</span>
+                    @else
+                    <span class="text-slate-600 text-xl">★</span>
+                    @endif
+                    @endfor
+            </div>
+
+            <div class="text-sm text-slate-500">
+                📅 {{ $userPost->created_at->format('Y年m月d日 H:i') }}
+            </div>
+        </div>
+
+        {{-- コメントセクション --}}
+        <h3 class="text-2xl font-bold mb-6 border-b border-slate-700 pb-2">
+            💬 コメント
+        </h3>
+
+        @forelse ($userPost->userPostComments as $comment)
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 mb-6 shadow-md hover:border-red-500 transition">
+
+            <div class="flex justify-between items-center mb-2">
+                <strong class="text-red-400">
+                    {{ $comment->user->name }}
+                </strong>
+
+                <span class="text-xs text-slate-500">
+                    {{ $comment->created_at->format('Y/m/d H:i') }}
+                </span>
+            </div>
+
+            <p class="text-slate-300 mb-4">
+                {{ $comment->comment }}
+            </p>
+
+            <div class="flex gap-4 text-sm">
+                <a href="{{ route('user_post_comments.edit', $comment->id) }}"
+                    class="text-blue-400 hover:underline">
+                    編集
+                </a>
+
+                <form action="{{ route('user_post_comments.destroy', $comment->id) }}"
+                    method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit"
+                        onclick="return confirm('本当に削除しますか')"
+                        class="text-slate-400 hover:text-red-500">
+                        削除
+                    </button>
+                </form>
+            </div>
+
+        </div>
+        @empty
+        <p class="text-slate-500">まだコメントはありません。</p>
+        @endforelse
+
+
+        {{-- コメント投稿フォーム --}}
+        @auth
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mt-10 shadow-lg">
+
+            <form action="{{ route('user_post_comments.store', $userPost->id) }}" method="POST">
+                @csrf
+
+                <textarea name="comment"
+                    rows="4"
+                    placeholder="🔥 試合の感想を書こう..."
+                    required
+                    class="w-full bg-slate-800 border border-slate-700 rounded-lg p-4 text-white focus:outline-none focus:border-red-500 mb-4"></textarea>
+
+                <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-full font-semibold shadow transition">
+                    コメントする
+                </button>
+            </form>
+
+            <div class="mt-6">
+                <a href="{{ route('user_posts.index') }}"
+                    class="text-slate-400 hover:text-white text-sm">
+                    ← 投稿一覧に戻る
+                </a>
+            </div>
+
+        </div>
+        @endauth
+
     </div>
 </div>
-
-<h3>コメント</h3>
-
-@foreach ($userPost->userPostComments as $comment)
-<div style="margin-bottom:16px;">
-</div>
-<p>
-    <strong>{{ $comment->user->name }}</strong>
-    <br>{{ $comment->comment }}<br>
-    <small>{{ $comment->created_at }}</small>
-</p>
-
-<!--　編集ボタン -->
-<a href="{{ route('user_post_comments.edit', $comment->id) }}">
-    編集
-</a>
-
-<!-- 削除ボタン -->
-<form action="{{ route('user_post_comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
-    @csrf
-    @method('DELETE')
-    <button type="submit" onclick="return confirm('本当に削除しますか')">
-        削除
-    </button>
-</form>
-@endforeach
-
-@auth
-<form action="{{ route('user_post_comments.store', $userPost->id) }}" method="POST">
-    @csrf
-
-    <div>
-        <textarea name="comment" placeholder="コメントを書く" required></textarea>
-    </div>
-    <button type="submit">コメントする</button>
-</form>
-
-<a href="{{ route('user_posts.index') }}">投稿一覧に戻る</a>
-@endauth
+@endsection

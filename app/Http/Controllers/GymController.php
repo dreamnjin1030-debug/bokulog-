@@ -9,7 +9,7 @@ class GymController extends Controller
 {
     public function index()
     {
-        $gyms = Gym::all();
+        $gyms = Gym::withCount('boxers')->get();
 
         return view('gyms.index', compact('gyms'));
     }
