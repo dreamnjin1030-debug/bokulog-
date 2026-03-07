@@ -91,4 +91,9 @@ class User extends Authenticatable
             'boxer_id'
         )->withTimestamps();
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
 }

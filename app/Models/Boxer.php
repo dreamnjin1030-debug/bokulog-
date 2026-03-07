@@ -56,4 +56,9 @@ class Boxer extends Model
 
         return $this->followedUsers()->where('user_id', $user->id)->exists();
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
 }

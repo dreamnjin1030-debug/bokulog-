@@ -10,6 +10,7 @@ use App\Http\Controllers\BoxerPostCommentController;
 use App\Http\Controllers\BoxerPostLikesController;
 use App\Http\Controllers\BoxerFollowController;
 use App\Http\Controllers\GymController;
+use App\Http\Controllers\DonationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -68,5 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/boxers/{boxer}/follow', [BoxerFollowController::class, 'destroy'])->name('boxers.unfollow');
 
     Route::resource('gyms', GymController::class)->only(['index', 'show']);
+
+    Route::get('/donate/{boxer}', [DonationController::class, 'create'])->name('donate');
+    Route::get('/donation/success/{boxer}', [DonationController::class, 'success'])->name('donation.success');
+    Route::get('/donation/cancel/{boxer}', [DonationController::class, 'cancel'])->name('donation.cancel');
 });
 require __DIR__ . '/auth.php';
