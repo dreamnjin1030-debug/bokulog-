@@ -19,6 +19,8 @@
 <body class="bg-slate-950 ">
     <div class="min-h-screen">
 
+        @include('layouts.navigation')
+
         <!-- Page Heading -->
         @isset($header)
         <header class=" bg-slate-900 shadow">
