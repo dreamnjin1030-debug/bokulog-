@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="text-black min-h-screen py-12">
+<div class="text-white min-h-screen py-12">
     <div class="max-w-3xl mx-auto px-4">
 
         {{-- 投稿カード --}}
-        <div class="bg-white text-black rounded-2xl p-8 shadow-xl border border-slate-800 mb-10">
+        <div class="bg-slate-700 text-white rounded-2xl p-8 shadow-xl border border-slate-800 mb-10">
 
-            <h2 class="text-3xl font-bold text-red-400 mb-4">
+            <h2 class="text-3xl font-bold text-red-600 mb-4">
                 {{ $userPost->title }}
             </h2>
 
-            <p class="text-black leading-relaxed mb-6">
+            <p class="text-white leading-relaxed mb-6">
                 {{ $userPost->comment }}
             </p>
 
@@ -26,6 +26,11 @@
                     @endif
                     @endfor
             </div>
+
+            {{-- ボクサー --}}
+            <p class="text-sm text-slate-500 mb-4">
+                対象ボクサー: {{ $userPost->boxer->user->name }}
+            </p>
 
             <div class="text-sm text-slate-500">
                 📅 {{ $userPost->created_at->format('Y年m月d日 H:i') }}

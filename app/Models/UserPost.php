@@ -23,6 +23,11 @@ class UserPost extends Model
         return $this->belongsTo(user::class);
     }
 
+    public function boxer()
+    {
+        return $this->belongsTo(Boxer::class);
+    }
+
     public function userPostComments()
     {
         return $this->hasMany(UserPostComment::class);

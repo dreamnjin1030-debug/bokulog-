@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class=" bg-slate-100 min-h-screen py-16 text-black">
+<div class=" bg-slate-950 min-h-screen py-16 text-white">
     <div class="max-w-2xl mx-auto px-6">
 
         {{-- タイトル --}}
-        <h1 class="text-3xl font-bold text-red-400 mb-10">
+        <h1 class="text-3xl font-bold text-red-600 mb-10">
             🔥 新規投稿
         </h1>
 
@@ -17,12 +17,21 @@
                 {{-- ボクサーID --}}
                 <div>
                     <label class="block text-sm font-semibold text-slate-400 mb-2">
-                        ボクサーID
+                        ボクサー
                     </label>
-                    <input type="number"
-                        name="boxer_id"
-                        value="{{ old('boxer_id') }}"
-                        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition">
+
+                    <select name="boxer_id"
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3
+                            focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none">
+
+                        <option value="">選手を選択してください</option>
+
+                        @foreach($boxers as $boxer)
+                        <option value="{{ $boxer->id }}">
+                            {{ $boxer->user->name}}
+                        </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 {{-- タイトル --}}

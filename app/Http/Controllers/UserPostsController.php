@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserPost;
+use App\Models\Boxer;
 use App\Http\Requests\StoreUserPostRequest;
 use App\Http\Requests\UpdateUserPostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,8 @@ class UserPostsController extends Controller
     // 新規作成画面
     public function create()
     {
-        return view('user_posts.create');
+        $boxers = Boxer::with('user')->get();
+        return view('user_posts.create', compact('boxers'));
     }
 
     // 保存
@@ -42,6 +44,7 @@ class UserPostsController extends Controller
     // 投稿に対するコメント
     public function show(UserPost $userPost)
     {
+        $userPost->load('boxer.user');
         return view('user_posts.show', compact('userPost'));
     }
 

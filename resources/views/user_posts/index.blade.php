@@ -42,7 +42,7 @@
 
         {{-- ボクサー --}}
         <p class="text-sm text-slate-500 mb-4">
-            対象ボクサーID: {{ $post->boxer_id }}
+            対象ボクサー: {{ $post->boxer->user->name }}
         </p>
 
         {{-- アクションボタン --}}
