@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Stripe\stripe;
+use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Boxer;
 use Illuminate\Http\Request;
