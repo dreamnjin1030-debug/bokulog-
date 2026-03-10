@@ -94,22 +94,62 @@
             </form>
             @endif
 
-            <span class="text-sm text-slate-400">
-                {{ $post->likedUsers->count() }} いいね
-            </span>
+            <div class="text-xs text-slate-400 mt-2">
+                <a href="#"
+                    class="show-likes text-blue-400"
+                    data-post-id="{{ $post->id }}">
+                    {{ $post->likedUsers->count() }} いいね
+                </a>
+            </div>
 
         </div>
-        @endauth
+        {{-- いいねユーザー表示モーダル --}}
+        <div id="likesModel" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <div class="bg-white p-4 rounded w-80">
+                <h2 class="font-bold mb-2">いいねしたユーザー</h2>
+                <ul id="likesUserList"></ul>
 
-        {{-- いいねユーザー --}}
-        @if($post->likedUsers->count())
-        <div class="text-xs text-slate-500 mt-2">
-            👍 {{ $post->likedUsers->pluck('name')->join(', ') }}
+                <button onclick="closeLikesModel()" class="mt-3 text-sm text-gray-500">
+                    閉じる
+                </button>
+            </div>
         </div>
-        @endif
 
     </div>
+    @endauth
+
     @endforeach
+    <script>
+        document.querySelectorAll('.show-likes').forEach(el => {
+            el.addEventListener('click', function(e) {
+
+                e.preventDefault();
+
+                const postId = this.dataset.postId;
+
+                fetch(`/user-posts/${postId}/likes`)
+                    .then(res => res.json())
+                    .then(users => {
+
+                        const list = document.getElementById('likesUserList');
+                        list.innerHTML = '';
+
+                        users.forEach(user => {
+                            const li = document.createElement('li');
+                            li.textContent = user.name;
+                            list.appendChild(li);
+                        });
+
+                        document.getElementById('likesModel').classList.remove('hidden');
+
+                    });
+            });
+        });
+
+        function closeLikesModel() {
+            document.getElementById('likesModel').classList.add('hidden');
+        }
+    </script>
 
 </div>
 

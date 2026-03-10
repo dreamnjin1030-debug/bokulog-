@@ -12,9 +12,18 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('user_posts.index')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('user_posts.index')" :active="request()->routeIs('user_posts.index')">
+                        {{ __('観客の投稿') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('gyms.index')" :active="request()->routeIs('gyms.*')">
+                        {{ __('ジム') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('boxers.index')" :active="request()->routeIs('boxers.*')">
+                        {{ __('ボクサー')}}
+                    </x-nav-link>
+
                 </div>
             </div>
 

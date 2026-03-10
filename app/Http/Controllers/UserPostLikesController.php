@@ -20,4 +20,10 @@ class UserPostLikesController extends Controller
 
         return back();
     }
+
+    public function likes(UserPost $userPost)
+    {
+        $users = $userPost->likedUsers()->get();
+        return response()->json($users);
+    }
 }

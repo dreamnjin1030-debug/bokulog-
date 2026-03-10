@@ -43,4 +43,9 @@ class UserPost extends Model
             'user_id',
         );
     }
+
+    public function likes()
+    {
+        return $this->belongsTomany(User::class, 'likes');
+    }
 }

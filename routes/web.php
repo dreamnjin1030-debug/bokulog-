@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/user-posts/{userPost}/like', [UserPostLikesController::class, 'store'])->name('user_posts.like');
     Route::delete('/user-posts/{userPost}/like', [UserPostLikesController::class, 'destroy'])->name('user_posts.unlike');
+    Route::get('/user-posts/{userPost}/likes', [UserPostLikesController::class, 'likes']);
 
     Route::get('/boxers', [BoxersController::class, 'index'])->name('boxers.index');
     Route::get('/boxers/create', [BoxersController::class, 'create'])->name('boxers.create');
