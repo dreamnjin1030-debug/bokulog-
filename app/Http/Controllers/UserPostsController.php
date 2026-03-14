@@ -51,11 +51,18 @@ class UserPostsController extends Controller
     // 編集画面
     public function  edit(UserPost $userPost)
     {
+        if (auth::id() !== $userPost->user_id) {
+            abort(403);
+        }
+
         return view('user_posts.edit', compact('userPost'));
     }
     // 更新
     public function update(UpdateUserPostRequest $request, UserPost $userPost)
     {
+        if (Auth::id() !== $userPost->user_id) {
+            abort(403);
+        }
         $userPost->update($request->validated());
 
         return redirect()->route('user_posts.index');
@@ -64,6 +71,9 @@ class UserPostsController extends Controller
     // 削除
     public function delete(UserPost $userPost)
     {
+        if (Auth::id() !== $userPost->user_id) {
+            abort(403);
+        }
         $userPost->delete();
         return redirect()->route('user_posts.index');
     }

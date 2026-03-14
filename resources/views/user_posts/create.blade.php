@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class=" bg-slate-950 min-h-screen py-16 text-white">
+<div class=" bg-slate-950 py-16 text-white">
     <div class="max-w-2xl mx-auto px-6">
 
         {{-- タイトル --}}
@@ -14,21 +14,21 @@
             <form action="{{ route('user_posts.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                {{-- ボクサーID --}}
+                {{-- ボクサー --}}
                 <div>
                     <label class="block text-sm font-semibold text-slate-400 mb-2">
                         ボクサー
                     </label>
 
-                    <select name="boxer_id"
+                    <select id="boxer_select" name="boxer_id"
                         class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3
                             focus:border-red-500 focus:ring-1 focus:ring-red-500 outline-none">
 
-                        <option value="">選手を選択してください</option>
+                        <option value="">ボクサーを検索</option>
 
                         @foreach($boxers as $boxer)
                         <option value="{{ $boxer->id }}">
-                            {{ $boxer->user->name}}
+                            {{ $boxer->user->name}} 
                         </option>
                         @endforeach
                     </select>
@@ -64,19 +64,24 @@
 
                     <div class="flex flex-wrap gap-2">
                         @for ($i = 1; $i <= 5; $i++)
+
+                        <label class="cursor-pointer">
+
                             <input
                             id="rating-{{ $i }}"
                             type="radio"
-                            value="{{ $i }}"
                             name="rating"
+                            value="{{ $i }}"
                             class="sr-only peer"
                             {{ old('rating') == $i ? 'checked' : '' }}>
 
-                            <label for="rating-{{ $i }}"
+                            <span for="rating-{{ $i }}"
                                 class="cursor-pointer px-3 py-1 rounded-full border border-slate-700 bg-slate-800 text-slate-300
-                                             peer-checked:bg-yellow-400 peer-checked:text-black
-                                             hover:border-yellow-400 transition">
-                                {{ $i }}
+                                                peer-checked:bg-yellow-400
+                                                peer-checked:text-black
+                                                hover:border-yellow-400 transition">
+                                                 {{ $i }}
+                            </span>
                             </label>
                             @endfor
                     </div>
@@ -102,4 +107,17 @@
 
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        new TomSelect("#boxer_select", {
+            create: false,
+            searchField: ["text"],
+            placeholder: "ボクサー名を検索..."
+        });
+    });
+</script>
+@endpush
 @endsection

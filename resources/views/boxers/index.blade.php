@@ -10,10 +10,16 @@
                 🥊 ボクサー一覧
             </h1>
 
+            @auth
+            @if(Auth::user()->is_admin)
+
             <a href="{{ route('boxers.create') }}"
                 class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-full font-semibold shadow-lg transition transform hover:scale-105">
                 + 新規ボクサー作成
             </a>
+
+            @endif
+            @endauth
         </div>
 
         {{-- グリッド --}}

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Boxer;
+use App\Models\Gym;
 use App\Http\Requests\StoreBoxerRequest;
 use App\Http\Requests\UpdateBoxerRequest;
+use Illuminate\Support\Facades\Auth;
 
 
 class BoxersController extends Controller
@@ -18,7 +20,13 @@ class BoxersController extends Controller
 
     public function create()
     {
-        return view('boxers.create');
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
+
+        $gyms = Gym::all();
+
+        return view('boxers.create', compact('gyms'));
     }
 
     public function store(StoreBoxerRequest $request)
@@ -40,11 +48,18 @@ class BoxersController extends Controller
 
     public function edit(Boxer $boxer)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
+
         return view('boxers.edit', compact('boxer'));
     }
 
     public function update(UpdateBoxerRequest $request, Boxer $boxer)
     {
+        if (!Auth::user()->is_admin) {
+            abort(403);
+        }
         // バリデーション済みデータ
         $data = $request->validated();
 

@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/boxers/{boxer}/follow', [BoxerFollowController::class, 'store'])->name('boxers.follow');
     Route::delete('/boxers/{boxer}/follow', [BoxerFollowController::class, 'destroy'])->name('boxers.unfollow');
+    Route::get('/boxers/{boxer}/followers', [BoxerFollowController::class, 'followers']);
 
     Route::resource('gyms', GymController::class)->only(['index', 'show']);
 

@@ -14,12 +14,16 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- userposts投稿時の検索機能 -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
 </head>
 
 <body class="bg-slate-950 ">
-    <div class="min-h-screen">
 
-        @include('layouts.navigation')
+     @include('layouts.navigation')
+     
+    <div class="min-h-screen">
 
         <!-- Page Heading -->
         @isset($header)
@@ -31,10 +35,14 @@
         @endisset
 
         <!-- Page Content -->
-        <main class="max-w-5xl mx-auto px-6 py-12">
+        <main class="px-6 py-12">
             @yield('content')
         </main>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

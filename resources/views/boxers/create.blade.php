@@ -14,14 +14,31 @@
                 @csrf
 
                 {{-- 所属ジム --}}
-                <div>
-                    <label class="block text-sm text-slate-400 mb-2">
+                <div class="mb-6">
+                    <label class="block  text-slate-400 mb-2">
                         所属ジムID
                     </label>
-                    <input type="number" name="gym_id"
-                        class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
-                        placeholder="gym_id"
-                        value="{{ old('gym_id') }}">
+
+                    <input type="text" id="gym-search"
+                        placeholder="ジムを検索..."
+                        class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-white">
+                    
+                    <input type="hidden" name="gym_id" id="gym_id">
+
+                    <ul id="gym-list"
+                        class="bg-slate-900 border border-slate-700 rounded-lg mt-2 max-h-40 overflow-y-auto hidden">
+
+                        @foreach($gyms as $gym)
+                            <li class="p-2 hover:bg-red-500 cursor-pointer"
+                                data-name="{{ strtolower($gym->name) }}"
+                                onclick="selectGym({{ $gym->id }}, '{{ $gym->name }}')">
+
+                                {{ $gym->name }}
+                            </li>
+                        @endforeach
+
+                    </ul>
+
                 </div>
 
                 {{-- 戦績 --}}
@@ -92,5 +109,56 @@
 
         </div>
     </div>
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function(){
+
+        const search = document.getElementById("gym-search");
+        const list = document.getElementById("gym-list");
+        const items = document.querySelectorAll("#gym-list li");
+
+        search.addEventListener("focus", function(){
+            list.classList.remove("hidden");
+        });
+
+        search.addEventListener("input", function(){
+
+            let keyword = this.value.toLowerCase();
+
+            items.forEach(function(item){
+
+                let name = item.dataset.name;
+
+                if(name.includes(keyword)){
+                    item.style.display = "block";
+                }else{
+                    item.style.display = "none";
+                }       
+
+            });
+
+        });
+
+        window.selectGym = function(id, name){
+
+            document.getElementById("gym-search").value = name;
+            document.getElementById("gym_id").value = id;
+
+            list.classList.add("hidden");
+
+        }
+
+        document.addEventListener("click", function(e){
+
+            if(!search.contains(e.target) && !list.contains(e.target)){
+                list.classList.add("hidden");
+            }
+
+        });
+
+    });
+
+</script>
 </div>
 @endsection

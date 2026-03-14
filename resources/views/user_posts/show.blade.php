@@ -59,7 +59,10 @@
                 {{ $comment->comment }}
             </p>
 
+            @auth
+            @if(Auth::id() === $comment->user_id)
             <div class="flex gap-4 text-sm">
+
                 <a href="{{ route('user_post_comments.edit', $comment->id) }}"
                     class="text-blue-400 hover:underline">
                     編集
@@ -76,6 +79,8 @@
                     </button>
                 </form>
             </div>
+            @endif
+            @endauth
 
         </div>
         @empty

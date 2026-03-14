@@ -26,12 +26,20 @@ class UserPostCommentController extends Controller
     // 編集機能
     public function edit(UserPostComment $comment)
     {
+        if (Auth::id() !== $comment->user_id) {
+            abort(403);
+        }
+
         return view('user_post_comments.edit', compact('comment'));
     }
 
     // 更新機能
     public function update(UpdateUserPostCommentRequest $request, UserPostComment $comment)
     {
+        if (Auth::id() !== $comment->user_id) {
+            abort(403);
+        }
+
         $comment->update($request->validated());
 
         return redirect()->route('user_posts.show', $comment->user_post_id);
@@ -40,6 +48,10 @@ class UserPostCommentController extends Controller
     // 削除機能
     public function destroy(UserPostComment $comment)
     {
+        if (Auth::id() !== $comment->user_id) {
+            abort(403);
+        }
+
         $comment->delete();
 
         return back()->with('success', 'コメントを削除しました');

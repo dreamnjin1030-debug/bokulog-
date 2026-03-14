@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('role', ['boxer', 'audience']);
             $table->rememberToken();
             $table->timestamps();
+            $table->boolean('is_admin')->default(false);
         });
     }
 

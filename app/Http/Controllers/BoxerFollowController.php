@@ -26,4 +26,13 @@ class BoxerFollowController extends Controller
 
         return back();
     }
+
+    public function followers($boxerId)
+    {
+        $boxers = \App\Models\Boxer::findOrFail($boxerId);
+
+        $followers = $boxers->followedUsers->pluck('name');
+
+        return response()->json($followers);
+    }
 }

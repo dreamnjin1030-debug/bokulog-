@@ -4,7 +4,8 @@
 <div class="bg-slate-900 border border-slate-800 rounded-3xl p-10 shadow-2xl relative ">
 
     {{-- 投げ銭 --}}
-    <a href="{{ route('donate', $boxer->id) }}"
+    <a href="#" onclick="openDonate({{ $boxer->id }})"
+        
         class=" absolute top-5 right-5 inline-block bg-yellow-500 hover:bg-yellow-600 px-8 py-3 rounded-full font-semibold shadow-lg transition transform hover:scale-105">
 
         💰 投げ銭する(500円)
@@ -20,7 +21,8 @@
     {{-- フォロワー --}}
     <div class="flex  items-center justify-center gap-6 mb-4">
 
-        <span class="text-slate-400">
+        <span onclick="showFollowers({{ $boxer->id }})"
+            class="cursor-pointer text-slate-400">
             👥 フォロワー {{ $boxer->followedUsers()->count() }}
         </span>
 
@@ -109,5 +111,36 @@
 
     </div>
 
+    <div id="modal" class="hidden fixed inset-0 flex items-center justify-center bg-black/50">
+    <div id="modal-content" class="bg-white p-6 rounded-lg"></div>
+    </div>
+<script>
+    async function showFollowers(boxerId)
+    {
+        const res = await fetch(`/boxers/${boxerId}/followers`);
+        const users = await res.json();
+
+        let html = "<h3 class='font-bold mb-2'>フォロワー</h3>";
+
+        users.forEach(user => {
+            html += `<p>${user}</p>`;
+        });
+
+        html += "<button onclick='closeModal()'>閉じる</button>";
+
+        document.getElementById("modal-content").innerHTML = html;
+        document.getElementById("modal").classList.remove("hidden");
+    }
+
+    function closeModal()
+    {
+     document.getElementById("modal").classList.add("hidden");
+    }
+
+    function openDonate(boxerId)
+    {
+        window.open(`/donate/${boxerId}`, "_blank");
+    }
+</script>
 </div>
 @endsection

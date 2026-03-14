@@ -60,3 +60,39 @@
     height: auto;
     z-index: 9999;
 }
+
+.ts-wrapper {
+    width: 100%;
+}
+
+.ts-control {
+    background-color: #1e293b !important; /* slate-800 */
+    border: none !important;
+    box-shadow: none !important;
+}
+.ts-control input {
+    background: transparent !important;
+    color: white !important;
+}
+
+.ts-control .item {
+    color: white !important;
+}
+
+.ts-dropdown {
+    background-color: #0f172a !important; /* slate-900 */
+    color: white;
+    position: absolute !important;
+    top: 100%;
+    left: 0;
+    z-index: 9999;
+}
+
+.ts-dropdown .option {
+    color: white !important;
+}
+
+.ts-dropdown .active {
+    background: #dc2626 !important;
+    color: white !important;
+}

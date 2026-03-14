@@ -48,6 +48,9 @@
         {{-- アクションボタン --}}
         <div class="flex items-center flex-wrap gap-3 mb-4">
 
+            @auth
+            @if(Auth::id() === $post->user_id)
+
             <a href="{{ route('user_posts.edit',$post) }}"
                 class="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded-lg text-sm font-semibold transition">
                 編集
@@ -62,6 +65,9 @@
                     削除
                 </button>
             </form>
+
+            @endif
+            @endauth
 
             <a href="{{ route('user_posts.show', $post->id) }}"
                 class="text-sm text-red-400 hover:underline">

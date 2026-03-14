@@ -10,10 +10,16 @@
                 🥊 {{ $boxer->user->name }} の投稿
             </h1>
 
+            @auth
+            @if(Auth::id() === $boxer->user_id)
+
             <a href="{{ route('boxer_posts.create', $boxer) }}"
                 class="bg-green-500 hover:bg-green-600 text-black font-semibold px-5 py-2 rounded-xl transition shadow-md">
                 新規投稿
             </a>
+
+            @endif
+            @endauth
         </div>
 
         {{-- 投稿ループ --}}
@@ -51,6 +57,8 @@
             </div>
 
             {{-- 編集削除 --}}
+            @auth
+            @if(Auth::id() === $post->user_id)
             <div class="flex gap-4 text-sm mb-6">
                 <a href="{{ route('boxer_posts.edit', $post) }}"
                     class="text-blue-400 hover:underline">
@@ -66,6 +74,8 @@
                     </button>
                 </form>
             </div>
+            @endif
+            @endauth
 
             {{-- コメント一覧 --}}
             <div class="space-y-3 mb-4 border-t border-slate-800 pt-4">
