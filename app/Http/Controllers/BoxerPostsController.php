@@ -12,7 +12,7 @@ class BoxerPostsController extends Controller
 {
     public function index(Boxer $boxer)
     {
-        $posts = $boxer->posts()
+        $posts = $boxer->user->posts()
             ->with(['comments.user'])
             ->latest()
             ->get();

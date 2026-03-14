@@ -27,6 +27,17 @@
                         {{ __('ボクサー')}}
                     </x-nav-link>
 
+                    @if(auth()->user()->role === 'audience')
+
+                    <x-nav-link :href="route('boxer.apply')" :active="request()->routeIs('boxer.apply')"
+                        class="text-gray-300 hover:text-red-400">
+                        {{ __('プロボクサー認証') }}
+                    </x-nav-link>
+
+                    @endif
+
+
+
                 </div>
             </div>
 

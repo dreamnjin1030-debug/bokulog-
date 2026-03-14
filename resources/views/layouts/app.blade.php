@@ -34,6 +34,8 @@
         </header>
         @endisset
 
+        @if(session('success')) <div class="bg-green-600 text-white p-3 text-center"> {{ session('success') }} </div> @endif @if(session('error')) <div class="bg-red-600 text-white p-3 text-center"> {{ session('error') }} </div> @endif
+        
         <!-- Page Content -->
         <main class="px-6 py-12">
             @yield('content')

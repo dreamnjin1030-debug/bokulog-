@@ -58,7 +58,8 @@
 
             {{-- 編集削除 --}}
             @auth
-            @if(Auth::id() === $post->user_id)
+            @if(Auth::user()->role === 'boxer' && Auth::id() === $post->user_id)
+
             <div class="flex gap-4 text-sm mb-6">
                 <a href="{{ route('boxer_posts.edit', $post) }}"
                     class="text-blue-400 hover:underline">
@@ -66,16 +67,18 @@
                 </a>
 
                 <form action="{{ route('boxer_posts.destroy', $post) }}" method="POST">
-                    @csrf
-                    @method('DELETE')
-                    <button class="text-red-400 hover:underline"
-                        onclick="return confirm('削除しますか？')">
-                        削除
-                    </button>
-                </form>
-            </div>
-            @endif
-            @endauth
+                @csrf
+                @method('DELETE')
+                <button class="text-red-400 hover:underline"
+                    onclick="return confirm('削除しますか？')">
+                    削除
+                </button>
+            </form>
+        </div>
+
+        @endif
+        @endauth
+
 
             {{-- コメント一覧 --}}
             <div class="space-y-3 mb-4 border-t border-slate-800 pt-4">

@@ -13,7 +13,6 @@ class Boxer extends Model
     protected $fillable = [
         'user_id',
         'gym_id',
-        'name',
         'win',
         'lose',
         'draw',

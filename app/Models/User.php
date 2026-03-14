@@ -28,10 +28,21 @@ class User extends Authenticatable
         'role',
     ];
 
+
+    public function boxerApplication()
+    {
+        return $this->hasOne(BoxerApplication::class);
+    }
+
     //ボクサー情報
     public function boxer()
     {
         return $this->hasOne(Boxer::class);
+    }
+
+    public function isBoxer()
+    {
+        return $this->role === 'boxer';
     }
 
     //ユーザー情報
@@ -95,5 +106,10 @@ class User extends Authenticatable
     public function donations()
     {
         return $this->hasMany(Donation::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(BoxerPost::class);
     }
 }

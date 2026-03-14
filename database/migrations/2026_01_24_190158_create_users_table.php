@@ -17,10 +17,12 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['boxer', 'audience']);
+
+            $table->enum('role', ['audience', 'boxer',]); // audience / boxer（申請する意思）
+            $table->boolean('is_admin')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
-            $table->boolean('is_admin')->default(false);
         });
     }
 

@@ -17,7 +17,7 @@ class BoxerPostsSeeder extends Seeder
             BoxerPost::factory()
                 ->count(rand(1, 3))
                 ->create([
-                    'boxer_id' => $boxer->id,
+                    'user_id'  => $boxer->user_id,
                 ]);
         });
     }

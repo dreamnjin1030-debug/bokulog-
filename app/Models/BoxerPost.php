@@ -11,6 +11,7 @@ class BoxerPost extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'boxer_id',
         'comment',
     ];
@@ -35,5 +36,10 @@ class BoxerPost extends Model
         if (!$user) return false;
 
         return $this->likedUsers()->where('users.id', $user->id)->exists();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

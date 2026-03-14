@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('boxer_posts', function (Blueprint $table) {
+        Schema::create('boxer_applications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->text('comment')->nullable();
+            $table->string('license_number');
+            $table->string('license_image');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('boxer_posts');
+        Schema::dropIfExists('boxer_applications');
     }
 };

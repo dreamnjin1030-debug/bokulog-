@@ -2,8 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserPostsController;
+
+use App\Http\Controllers\BoxerApplicationController;
+use App\Http\Controllers\AdminBoxerApplicationController;
+
 use App\Http\Controllers\UserPostCommentController;
 use App\Http\Controllers\UserPostLikesController;
+
 use App\Http\Controllers\BoxersController;
 use App\Http\Controllers\BoxerPostsController;
 use App\Http\Controllers\BoxerPostCommentController;
@@ -17,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/boxer/apply', [BoxerApplicationController::class, 'create'])->name('boxer.apply');
+    Route::post('/boxer/apply', [BoxerApplicationController::class, 'store'])->name('boxer.apply.store');
 
     Route::get('/', [UserPostsController::class, 'index'])->name('user_posts.index');
     Route::get('/user-posts/create', [UserPostsController::class, 'create'])->name('user_posts.create');
@@ -66,5 +74,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/donate/{boxer}', [DonationController::class, 'create'])->name('donate');
     Route::get('/donation/success/{boxer}', [DonationController::class, 'success'])->name('donation.success');
     Route::get('/donation/cancel/{boxer}', [DonationController::class, 'cancel'])->name('donation.cancel');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+
+    Route::get('/boxer-applications', [AdminBoxerApplicationController::class, 'index'])->name('admin.boxer.index');
+    Route::get('/boxer-applications/{id}', [AdminBoxerApplicationController::class, 'show'])->name('admin.boxer.show');
+    Route::post('/boxer-applications/{id}/approve', [AdminBoxerApplicationController::class, 'approve'])->name('admin.boxer.approve');
+    Route::post('/boxer-applications/{id}/reject', [AdminBoxerApplicationController::class, 'reject'])->name('admin.boxer.reject');
 });
 require __DIR__ . '/auth.php';

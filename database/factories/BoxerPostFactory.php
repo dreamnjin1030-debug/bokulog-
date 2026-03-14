@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\BoxerPost;
-use App\Models\Boxer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +20,8 @@ class BoxerPostFactory extends Factory
     public function definition(): array
     {
         return [
-            'boxer_id' => Boxer::factory(),
-            //
+            'user_id' => User::factory(),
+            'comment' => fake()->sentence(),
         ];
     }
 }
